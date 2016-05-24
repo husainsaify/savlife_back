@@ -45,7 +45,7 @@ if (!validate_mobile_number($mobile)){
 }
 
 //check mobile number is already registered or not
-if (is_mobile_number_registered($mobile)){
+if (is_mobile_number_registered($mobile,false)){
     $response["return"] = false;
     $response["message"] = "{$mobile} already registered. Try login";
     json($response);

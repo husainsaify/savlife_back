@@ -82,12 +82,25 @@ function json($response = array()){
  * True = mobile is registered
  * false = mobile is not registered
  * */
-function is_mobile_number_registered($mobile){
-    $count = Db::rowCount("user",array(
-        "mobile" => $mobile
-    ),array(
-        "="
-    ));
+function is_mobile_number_registered($mobile,$active){
+    //check for users which are active
+    if ($active == true){
+        $count = Db::rowCount("user",array(
+            "mobile" => $mobile,
+            "active" => "y",
+            "verified_otp" => "y"
+        ),array(
+            "=","=","="
+        ));
+
+    }else{
+        //user active status dont matter
+        $count = Db::rowCount("user",array(
+            "mobile" => $mobile
+        ),array(
+            "="
+        ));
+    }
 
     return $count == 1 ? true : false;
 }

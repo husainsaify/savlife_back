@@ -26,9 +26,9 @@ if (!validate_key($apikey,$mobile)){
 }
 
 //check mobile number is registered or not
-if (!is_mobile_number_registered($mobile)){
+if (!is_mobile_number_registered($mobile,false)){
     $response["return"] = false;
-    $response["message"] = "{$mobile} not registered. Try Registration";
+    $response["message"] = "{$mobile} is not registered with SavLife. Try registration";
     json($response);
 }
 
