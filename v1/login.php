@@ -7,6 +7,7 @@ require_once "../inc/Config.php";
 
 //check verified param
 $param = check_required_param(array("apikey","mobile"),"post");
+
 if (!$param){
     $response["return"] = false;
     $response["message"] = "Required parameters not passed";
@@ -18,9 +19,9 @@ $mobile = e($_POST["mobile"]);
 
 
 //check api key
-if (!check_apikey($apikey)){
+if (!validate_key($apikey,$mobile)){
     $response["return"] = false;
-    $response["message"] = "Invalid api key";
+    $response["message"] = "Invalid key. Unauthorised access";
     json($response);
 }
 

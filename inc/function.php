@@ -44,6 +44,7 @@ function validate_email($email){
 
 /*
  * Method to check APIKEY is valid
+ * database wali api key
  * */
 function check_apikey($apikey){
     $count = Db::rowCount("apikeys",array(
@@ -54,6 +55,17 @@ function check_apikey($apikey){
         return true;
     }
     return false;
+}
+
+/*
+ * This method will decrypt the key and check if it matches $Mobile
+ * match = true
+ * did match = false
+ * */
+function validate_key($key,$mobile){
+    $apiEncrypter = new ApiEncrypter();
+    $d_key = $apiEncrypter->decrypt($key);
+    return $d_key == $mobile ? true : false;
 }
 
 /*
@@ -86,3 +98,5 @@ function is_mobile_number_registered($mobile){
 function generate_otp_code(){
     return rand(1000,9999);
 }
+
+

@@ -29,22 +29,31 @@ $age = e($_POST["age"]);
 $blood = e($_POST["blood"]);
 
 //check api key
-if (!check_apikey($apikey)){
+if (!validate_key($apikey,$mobile)){
     $response["return"] = false;
-    $response["message"] = "Invalid api key";
+    $response["message"] = "Invalid key. Unauthorised access";
     json($response);
 }
+
+
 
 //validation
-if (strlen($fullname) <= 3){
-    $response["return"] = false;
-    $response["message"] = "Fullname should be more then 3 characters";
-    json($response);
-}
-
 if (!validate_mobile_number($mobile)){
     $response["return"] = false;
     $response["message"] = "Invalid mobile number";
+    json($response);
+}
+
+//check mobile number is already registered or not
+if (is_mobile_number_registered($mobile)){
+    $response["return"] = false;
+    $response["message"] = "{$mobile} already registered. Try login";
+    json($response);
+}
+
+if (strlen($fullname) <= 3){
+    $response["return"] = false;
+    $response["message"] = "Fullname should be more then 3 characters";
     json($response);
 }
 
@@ -61,12 +70,7 @@ if ($age < 18){
 }
 
 
-//check mobile number is already registered or not
-if (is_mobile_number_registered($mobile)){
-    $response["return"] = false;
-    $response["message"] = "{$mobile} already registered. Try login";
-    json($response);
-}
+
 
 $otp_code = generate_otp_code();
 

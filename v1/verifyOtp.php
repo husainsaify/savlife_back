@@ -21,9 +21,9 @@ $mobile = e($_POST["mobile"]);
 $otp = e($_POST["otp"]);
 
 //check api key
-if (!check_apikey($apikey)){
+if (!validate_key($apikey,$mobile)){
     $response["return"] = false;
-    $response["message"] = "Invalid api key";
+    $response["message"] = "Invalid key. Unauthorised access";
     json($response);
 }
 
@@ -64,7 +64,7 @@ if ($count == 1){
 
     $response["return"] = true;
     $response["message"] = "Success";
-    $response["user"] = $user;
+    $response["data"] = $user;
 }else{
     $response["return"] = false;
     $response["message"] = "Invalid otp code";

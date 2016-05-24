@@ -3,6 +3,7 @@
 require_once dirname(__DIR__)."/class/Db.php";
 require_once dirname(__DIR__)."/class/Password.php";
 require_once dirname(__DIR__)."/class/SendOtp.php";
+require_once dirname(__DIR__)."/class/ApiEncrypter.php";
 
 //include function files
 require_once dirname(__DIR__)."/inc/function.php";
