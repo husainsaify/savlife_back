@@ -20,7 +20,7 @@ if (!$param){
 
 $apikey = e($_POST["apikey"]);
 $mobile = e($_POST["mobile"]);
-$city = e($_POST["city"]);
+$city = e(strtolower($_POST["city"]));
 $latitude = e($_POST["latitude"]);
 $longitude = e($_POST["longitude"]);
 
