@@ -1,13 +1,12 @@
 <?php
 /**
- * API file to get
- * 50 random donors from city
+ * APi class to search donor according to city and blood group
  */
 $response = array();
 require_once "../inc/Config.php";
 
 //check verified param
-$param = check_required_param(array("apikey","mobile","city"),"post");
+$param = check_required_param(array("apikey","mobile","city","blood"),"post");
 
 if (!$param){
     $response["return"] = false;
@@ -18,6 +17,7 @@ if (!$param){
 $apikey = e($_POST["apikey"]);
 $mobile = e($_POST["mobile"]);
 $city = e(strtolower($_POST["city"]));
+$blood = e(strtolower($_POST["blood"]));
 
 //check api key
 if (!validate_key($apikey,$mobile)){
@@ -37,18 +37,18 @@ if (!is_mobile_number_registered($mobile,true)){
     json($response);
 }
 
-$q = Db::query("SELECT `id`,`fullname`,`img`,`blood` FROM `user` WHERE `city`=? AND `active`='y' ORDER BY RAND() LIMIT 100",array($city));
+$q = Db::query("SELECT `id`,`fullname`,`img`,`blood` FROM `user` WHERE `city`=? AND `blood`=? AND `active`='y' ORDER BY RAND()",array($city,$blood));
 
 if (Db::getError()){
     $response["return"] = false;
-    $response["message"] = "OOPS! Failed to get featured donor. Try again";
+    $response["message"] = "OOPS! Failed to search donor. Try again";
     json($response);
 }
 
 //message when no donors where found
 if ($q->rowCount() <= 0){
     $response["return"] = true;
-    $response["message"] = "No donors found for {$city}. Try another city";
+    $response["message"] = "No donors found from `{$city}` with `{$blood}` blood group. Try another blood group and get it exchanged by Blood Bank";
     $response["count"] = 0;
     $response["data"] = array();
     json($response);
