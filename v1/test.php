@@ -7,5 +7,7 @@
  */
 require_once "../inc/Config.php";
 
-$Api = new ApiEncrypter();
-echo $Api->encrypt("8962239913");
+/*$Api = new ApiEncrypter();
+echo $Api->encrypt("8962239913");*/
+
+echo time_ago("1464684065");

@@ -111,5 +111,3 @@ function is_mobile_number_registered($mobile,$active){
 function generate_otp_code(){
     return rand(1000,9999);
 }
-
-
