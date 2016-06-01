@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2016 at 11:37 AM
+-- Generation Time: May 24, 2016 at 12:30 PM
 -- Server version: 10.1.8-MariaDB
 -- PHP Version: 5.6.14
 
@@ -73,6 +73,7 @@ INSERT INTO `blood_group` (`id`, `name`) VALUES
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `fullname` text NOT NULL,
+  `img` text NOT NULL,
   `mobile` text NOT NULL,
   `gender` text NOT NULL,
   `age` text NOT NULL,
@@ -91,8 +92,9 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `fullname`, `mobile`, `gender`, `age`, `blood`, `otp`, `city`, `latitude`, `longitude`, `verified_otp`, `active`, `last_otp`, `created_at`) VALUES
-(1, 'husain saify', '8962239913', 'male', '18', 'b+', '0754', 'bhopal', '50', '60', 'y', 'y', '', '');
+INSERT INTO `user` (`id`, `fullname`, `img`, `mobile`, `gender`, `age`, `blood`, `otp`, `city`, `latitude`, `longitude`, `verified_otp`, `active`, `last_otp`, `created_at`) VALUES
+(1, 'husain saify', '', '8962239913', 'male', '18', 'b+', '0754', 'bhopal', '50', '60', 'y', 'y', '', ''),
+(2, 'huzefa saify', '', '9826995952', 'male', '32', 'b+', '0254', 'bhopal', '500', '600', 'y', 'y', '', '');
 
 --
 -- Indexes for dumped tables
@@ -134,7 +136,7 @@ ALTER TABLE `blood_group`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

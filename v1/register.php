@@ -26,7 +26,7 @@ $fullname = e($_POST["fullname"]);
 $mobile = e($_POST["mobile"]);
 $gender = e($_POST["gender"]);
 $age = e($_POST["age"]);
-$blood = e($_POST["blood"]);
+$blood = e(strtolower($_POST["blood"]));
 
 //check api key
 if (!validate_key($apikey,$mobile)){
