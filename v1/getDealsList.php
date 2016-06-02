@@ -27,7 +27,7 @@ if (!validate_key($apikey,$mobile)){
     json($response);
 }
 
-$q = Db::query("SELECT `id`,`lab_name`,`image`,`description`,`off` FROM `deals` WHERE `active`=? ORDER BY `off` DESC",array("y"));
+$q = Db::query("SELECT `id`,`lab_name`,`image` AS `img`,`description`,`off` FROM `deals` WHERE `active`=? ORDER BY `off` DESC",array("y"));
 
 //check
 if ($q->rowCount() <= 0) {
