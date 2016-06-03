@@ -37,7 +37,7 @@ if (!is_mobile_number_registered($mobile,true)){
     json($response);
 }
 
-$q = Db::query("SELECT `id`,`fullname`,`img`,`blood` FROM `user` WHERE `city`=? AND `active`='y' ORDER BY RAND() LIMIT 100",array($city));
+$q = Db::query("SELECT `id`,`fullname`,`img_thumb` AS `img`,`blood` FROM `user` WHERE `city`=? AND `active`='y' ORDER BY RAND() LIMIT 100",array($city));
 
 if (Db::getError()){
     $response["return"] = false;

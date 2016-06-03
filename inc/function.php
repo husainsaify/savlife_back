@@ -111,3 +111,11 @@ function is_mobile_number_registered($mobile,$active){
 function generate_otp_code(){
     return rand(1000,9999);
 }
+
+function check_admin_username_registered($username){
+    $count = Db::rowCount("admin",array(
+        "username" => $username,
+        "active" => "y"
+    ),array("=","="));
+    return $count == 1 ? true : false;
+}

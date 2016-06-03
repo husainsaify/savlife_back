@@ -31,7 +31,7 @@ if (!is_mobile_number_registered($mobile,true)){
     json($response);
 }
 
-$q = Db::query("SELECT feeds.status,feeds.img,feeds.type,feeds.time,user.id AS user_id,feeds.mobile AS user_mobile,user.fullname user_fullname,user.img AS user_image
+$q = Db::query("SELECT feeds.status,feeds.img,feeds.type,feeds.time,user.id AS user_id,feeds.mobile AS user_mobile,user.fullname user_fullname,user.img_thumb AS user_image
                 FROM feeds
                 LEFT JOIN user
                 ON feeds.mobile = user.mobile
