@@ -10,4 +10,4 @@ require_once "../inc/Config.php";
 
 //echo password_hash("test",PASSWORD_DEFAULT);
 $api = new ApiEncrypter();
-echo $api->encrypt("8962239913");
+echo $api->encrypt("test");

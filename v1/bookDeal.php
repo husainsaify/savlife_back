@@ -40,12 +40,7 @@ if (!check_deal_id_is_valid($deal_id)){
 }
 
 //check this deal is not booked by this user already
-$count = Db::rowCount("booked_deals",array(
-    "mobile" => $mobile,
-    "deal_id" => $deal_id
-),array("=","="));
-
-if ($count >= 1){
+if (is_deal_booked_by_user($mobile,$deal_id)){
     $response["return"] = false;
     $response["message"] = "This deal is already booked by you";
     json($response);
@@ -59,6 +54,19 @@ Db::insert("booked_deals",array(
 ));
 
 if (!Db::getError()){
+    //get the deal code
+    $fetch = Db::fetch("deals",array(
+        "id" => $deal_id
+    ),array("="));
+
+    $deal_code = $fetch[0]["code"];
+    $deal_lab_name = $fetch[0]["lab_name"];
+
+    //send sms to the user that deal has been booked
+    $message = "Hey! we are happy that you booked an deal from us\nGo to {$deal_lab_name} with Code:: {$deal_code}\nto credit your deal";
+    SendOtp::send($mobile,$message,false);
+
+    //show response
     $response["return"] = true;
     $response["message"] = "Deal Booked successfully";
 }else{

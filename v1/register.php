@@ -75,7 +75,7 @@ if ($age < 18){
 $otp_code = generate_otp_code();
 
 //send otp message
-SendOtp::send($mobile,$otp_code);
+SendOtp::send($mobile,$otp_code,true);
 
 //insert data into db
 Db::insert("user",array(

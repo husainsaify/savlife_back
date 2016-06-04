@@ -54,7 +54,7 @@ if ($otp_query->rowCount() == 1) {
         $otp_code = generate_otp_code();
 
         //send otp message
-        SendOtp::send($mobile,$otp_code);
+        SendOtp::send($mobile,$otp_code,true);
 
         //update otp code
         Db::update("user",array(

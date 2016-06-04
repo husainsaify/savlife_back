@@ -130,3 +130,17 @@ function check_deal_id_is_valid($deal_id){
     ),array("=","="));
     return $count == 1 ? true : false;
 }
+
+/*
+ * Method to check deal booked by user or not
+ * true == booked
+ * false =
+ * */
+function is_deal_booked_by_user($mobile,$deal_id){
+    //check this deal is not booked by this user already
+    $count = Db::rowCount("booked_deals",array(
+        "mobile" => $mobile,
+        "deal_id" => $deal_id
+    ),array("=","="));
+    return $count >= 1 ? true : false;
+}

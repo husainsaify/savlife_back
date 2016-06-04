@@ -6,10 +6,18 @@ class SendOtp{
     function __construct(){
     }
 
-    public static function send($mobile,$otp){
+    public static function send($mobile,$otp,$isOtp = true){
 
         //Your message to send, Add URL encoding here.
-        $message = urlencode("Hello! Welcome to SavLife. Your OTP is : {$otp}");
+
+        //if $isOtp is true means its an OTP message
+        if ($isOtp){
+            $message = urlencode("Hello! Welcome to SavLife. Your OTP is : {$otp}");
+        }else{
+            //else its an normal message
+            $message = urlencode($otp);
+        }
+
 
         //Prepare you post parameters
         $postData = array(
