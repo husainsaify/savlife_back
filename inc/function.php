@@ -119,3 +119,14 @@ function check_admin_username_registered($username){
     ),array("=","="));
     return $count == 1 ? true : false;
 }
+
+/*
+ * Method to check deal id is valid
+ * */
+function check_deal_id_is_valid($deal_id){
+    $count = Db::rowCount("deals",array(
+        "id" => $deal_id,
+        "active" => "y"
+    ),array("=","="));
+    return $count == 1 ? true : false;
+}
