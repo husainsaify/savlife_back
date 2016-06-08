@@ -31,7 +31,12 @@ if (!is_mobile_number_registered($mobile,true)){
     json($response);
 }
 
-$q = Db::query("SELECT `id`,`fullname`,`img`,`mobile`,`gender`,`age`,`blood`,`city` FROM `user` WHERE `mobile`=? AND `active`=?",array($mobile,"y"));
+$q = Db::query("SELECT user.id,user.fullname,user.img,user.mobile,user.gender,user.age,user.blood,user.city,donation_history.date
+                FROM user LEFT JOIN donation_history
+                ON user.mobile = donation_history.mobile
+                WHERE user.mobile = ? AND user.active = ?
+                ORDER BY donation_history.id DESC
+                LIMIT 1",array($mobile,"y"));
 
 if (!Db::getError()){
     $response["return"] = true;

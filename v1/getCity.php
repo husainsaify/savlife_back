@@ -15,7 +15,10 @@ foreach ($all_users_f AS $user){
     $city = $user["city"];
     //add this city to the array if its not present
     if (!in_array($city,$city_array)){
-        $city_array[] = $city;
+    	//if city is not empty then only add it
+    	if (!empty($city)) {
+    		$city_array[] = $city;
+    	}
     }
 }
 

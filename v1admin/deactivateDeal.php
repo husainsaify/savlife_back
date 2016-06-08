@@ -1,8 +1,7 @@
 <?php
 /**
- * API to search donor
+ * API to deactivate deal
  */
-
 $response = array();
 require_once "../inc/Config.php";
 
@@ -17,7 +16,7 @@ if (!$param){
 
 $apikey = e($_POST["apikey"]);
 $admin_username = e($_POST["username"]);
-$donor_id = e($_POST["id"]);
+$deal_id = e($_POST["id"]);
 
 
 //check api key
@@ -34,27 +33,21 @@ if (!check_admin_username_registered($admin_username)){
     json($response);
 }
 
-$result_q = Db::query("SELECT user.fullname,user.img_thumb AS img,user.mobile,user.gender,user.age,user.blood,user.city,donation_history.date
-                FROM user LEFT JOIN donation_history
-                ON user.mobile = donation_history.mobile
-                WHERE user.id = ? AND user.active = ?
-                ORDER BY donation_history.id DESC
-                LIMIT 1",array($donor_id,"y"));
-
-$result = $result_q->fetchAll(PDO::FETCH_ASSOC);
-
-if ($result_q->rowCount() <= 0){
+if (!check_deal_id_is_valid($deal_id)){
     $response["return"] = false;
-    $response["message"] = "No donor found with this Donor Id";
+    $response["message"] = "Inactive or invalid deal";
     json($response);
 }
 
+Db::update("deals",array(
+    "active" => "n"
+),array("id" => $deal_id),array("="));
+
 if (!Db::getError()){
     $response["return"] = true;
-    $response["message"] = "success";
-    $response["data"] = $result;
+    $response["message"] = "deal deactivated successfully";
 }else{
     $response["return"] = false;
-    $response["message"] = "No donor found with this Donor Id";
+    $response["message"] = "Failed to deactivate deal";
 }
 json($response);

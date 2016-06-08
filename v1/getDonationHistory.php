@@ -6,7 +6,7 @@ $response = array();
 require_once "../inc/Config.php";
 
 //check verified param
-$param = check_required_param(array("apikey","id"),"post");
+$param = check_required_param(array("apikey","mobile"),"post");
 
 if (!$param){
     $response["return"] = false;
@@ -15,16 +15,16 @@ if (!$param){
 }
 
 $apikey = e($_POST["apikey"]);
-$id = e($_POST["id"]);
+$mobile = e($_POST["mobile"]);
 
 //check api key
-if (!validate_key($apikey,$id)){
+if (!validate_key($apikey,$mobile)){
     $response["return"] = false;
     $response["message"] = "Invalid key. Unauthorised access";
     json($response);
 }
 
-$q = Db::query("SELECT `date` FROM `donation_history` WHERE user_id = ? ORDER BY `id` DESC",array($id));
+$q = Db::query("SELECT `date` FROM `donation_history` WHERE mobile = ? ORDER BY `id` DESC",array($mobile));
 
 if ($q->rowCount() <= 0){
     $response["return"] = true;

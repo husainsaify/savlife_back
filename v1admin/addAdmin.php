@@ -1,13 +1,15 @@
 <?php
 /**
- * API to search donor
+ * ADMIN api to add deals
  */
-
 $response = array();
 require_once "../inc/Config.php";
 
 //check verified param
-$param = check_required_param(array("apikey","username","id"),"post");
+$param = check_required_param(array("apikey",
+    "username",
+    "new_username",
+    "password"),"post");
 
 if (!$param){
     $response["return"] = false;
@@ -17,7 +19,8 @@ if (!$param){
 
 $apikey = e($_POST["apikey"]);
 $admin_username = e($_POST["username"]);
-$donor_id = e($_POST["id"]);
+$new_username = e($_POST["new_username"]);
+$password = e($_POST["password"]);
 
 
 //check api key
@@ -34,27 +37,31 @@ if (!check_admin_username_registered($admin_username)){
     json($response);
 }
 
-$result_q = Db::query("SELECT user.fullname,user.img_thumb AS img,user.mobile,user.gender,user.age,user.blood,user.city,donation_history.date
-                FROM user LEFT JOIN donation_history
-                ON user.mobile = donation_history.mobile
-                WHERE user.id = ? AND user.active = ?
-                ORDER BY donation_history.id DESC
-                LIMIT 1",array($donor_id,"y"));
-
-$result = $result_q->fetchAll(PDO::FETCH_ASSOC);
-
-if ($result_q->rowCount() <= 0){
+if (strlen($new_username) <= 4){
     $response["return"] = false;
-    $response["message"] = "No donor found with this Donor Id";
+    $response["message"] = "Username should be more then 4 characters";
     json($response);
 }
 
+if (strlen($password) <= 4){
+    $response["return"] = false;
+    $response["message"] = "Password should be more then 4 characters";
+    json($response);
+}
+
+$password_hash = password_hash($password,PASSWORD_DEFAULT);
+
+Db::insert("admin",array(
+    "username" => $new_username,
+    "password" => $password,
+    "active" => "y"
+));
+
 if (!Db::getError()){
     $response["return"] = true;
-    $response["message"] = "success";
-    $response["data"] = $result;
+    $response["message"] = "Admin added successfully";
 }else{
     $response["return"] = false;
-    $response["message"] = "No donor found with this Donor Id";
+    $response["message"] = "Failed to add admin";
 }
 json($response);
