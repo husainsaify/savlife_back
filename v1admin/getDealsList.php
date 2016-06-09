@@ -33,20 +33,23 @@ if (!check_admin_username_registered($admin_username)){
     json($response);
 }
 
-$q = Db::query("SELECT * FROM `deals` ORDER BY `id` DESC",array(""));
+$q = Db::query("SELECT booked_deals.id,booked_deals.mobile,booked_deals.time,deals.lab_name FROM booked_deals
+                LEFT JOIN deals
+                ON booked_deals.deal_id = deals.id
+                ORDER BY booked_deals.time DESC",array(""));
 
 if ($q->rowCount() <= 0) {
     $response["return"] = false;
-    $response["message"] = "No deals found. add new deals";
+    $response["message"] = "No Deals booked yet";
     json($response);
 }
 
 if (!Db::getError()){
     $response["return"] = true;
-    $response["message"] = "deal added successfully";
+    $response["message"] = "success";
     $response["data"] = $q->fetchAll(PDO::FETCH_ASSOC);
 }else{
     $response["return"] = false;
-    $response["message"] = "Failed to add deal. Try again later";
+    $response["message"] = "Failed. Try again later";
 }
 json($response);

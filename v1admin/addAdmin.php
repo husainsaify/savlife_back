@@ -53,7 +53,7 @@ $password_hash = password_hash($password,PASSWORD_DEFAULT);
 
 Db::insert("admin",array(
     "username" => $new_username,
-    "password" => $password,
+    "password" => $password_hash,
     "active" => "y"
 ));
 

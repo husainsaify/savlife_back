@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2016 at 12:30 PM
+-- Generation Time: Jun 08, 2016 at 07:53 PM
 -- Server version: 10.1.8-MariaDB
 -- PHP Version: 5.6.14
 
@@ -23,6 +23,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL,
+  `username` text NOT NULL,
+  `password` text NOT NULL,
+  `active` varchar(1) NOT NULL DEFAULT 'y'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `apikeys`
 --
 
@@ -31,38 +44,66 @@ CREATE TABLE `apikeys` (
   `name` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `apikeys`
+-- Table structure for table `booked_deals`
 --
 
-INSERT INTO `apikeys` (`id`, `name`) VALUES
-(1, 'e640742e7cda91da8f26f555ecde5571');
+CREATE TABLE `booked_deals` (
+  `id` int(11) NOT NULL,
+  `mobile` text NOT NULL,
+  `deal_id` text NOT NULL,
+  `time` text NOT NULL,
+  `status` varchar(1) NOT NULL DEFAULT 'p'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `blood_group`
+-- Table structure for table `deals`
 --
 
-CREATE TABLE `blood_group` (
+CREATE TABLE `deals` (
   `id` int(11) NOT NULL,
-  `name` text NOT NULL
+  `lab_name` text NOT NULL,
+  `code` varchar(6) NOT NULL,
+  `image` text NOT NULL,
+  `description` text NOT NULL,
+  `orginal_price` int(11) NOT NULL,
+  `special_price` int(11) NOT NULL,
+  `off` int(11) NOT NULL,
+  `active` varchar(1) NOT NULL DEFAULT 'y',
+  `time` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `blood_group`
+-- Table structure for table `donation_history`
 --
 
-INSERT INTO `blood_group` (`id`, `name`) VALUES
-(1, 'o-'),
-(2, 'o+'),
-(3, 'a-'),
-(4, 'a+'),
-(5, 'b-'),
-(6, 'b+'),
-(7, 'ab-'),
-(8, 'ab+'),
-(9, 'hh');
+CREATE TABLE `donation_history` (
+  `id` int(11) NOT NULL,
+  `mobile` text NOT NULL,
+  `date` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feeds`
+--
+
+CREATE TABLE `feeds` (
+  `id` int(11) NOT NULL,
+  `mobile` text NOT NULL,
+  `status` text NOT NULL,
+  `img` text NOT NULL,
+  `type` int(1) NOT NULL,
+  `time` text NOT NULL,
+  `active` varchar(1) NOT NULL DEFAULT 'y'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -74,6 +115,7 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `fullname` text NOT NULL,
   `img` text NOT NULL,
+  `img_thumb` text NOT NULL,
   `mobile` text NOT NULL,
   `gender` text NOT NULL,
   `age` text NOT NULL,
@@ -89,16 +131,14 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id`, `fullname`, `img`, `mobile`, `gender`, `age`, `blood`, `otp`, `city`, `latitude`, `longitude`, `verified_otp`, `active`, `last_otp`, `created_at`) VALUES
-(1, 'husain saify', '', '8962239913', 'male', '18', 'b+', '0754', 'bhopal', '50', '60', 'y', 'y', '', ''),
-(2, 'huzefa saify', '', '9826995952', 'male', '32', 'b+', '0254', 'bhopal', '500', '600', 'y', 'y', '', '');
-
---
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `apikeys`
@@ -107,9 +147,27 @@ ALTER TABLE `apikeys`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `blood_group`
+-- Indexes for table `booked_deals`
 --
-ALTER TABLE `blood_group`
+ALTER TABLE `booked_deals`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `deals`
+--
+ALTER TABLE `deals`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `donation_history`
+--
+ALTER TABLE `donation_history`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `feeds`
+--
+ALTER TABLE `feeds`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -123,20 +181,40 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `apikeys`
 --
 ALTER TABLE `apikeys`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `blood_group`
+-- AUTO_INCREMENT for table `booked_deals`
 --
-ALTER TABLE `blood_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE `booked_deals`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `deals`
+--
+ALTER TABLE `deals`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `donation_history`
+--
+ALTER TABLE `donation_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `feeds`
+--
+ALTER TABLE `feeds`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
