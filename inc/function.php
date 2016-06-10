@@ -144,3 +144,14 @@ function is_deal_booked_by_user($mobile,$deal_id){
     ),array("=","="));
     return $count >= 1 ? true : false;
 }
+
+/*
+    function to check user has likes this pic or not
+*/
+    function check_user_likes_feed($mobile,$feed_id){
+        $count = Db::rowCount("like_table",array(
+        "feed_id" => $feed_id,
+        "mobile" => $mobile
+        ),array("=","="));
+        return $count >= 1 ? true : false;
+    }

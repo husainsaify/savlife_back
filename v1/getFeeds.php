@@ -31,12 +31,13 @@ if (!is_mobile_number_registered($mobile,true)){
     json($response);
 }
 
-$q = Db::query("SELECT feeds.status,feeds.img,feeds.type,feeds.time,user.id AS user_id,feeds.mobile AS user_mobile,user.fullname user_fullname,user.img_thumb AS user_image
+$q = Db::query("SELECT feeds.id,feeds.status,feeds.img,feeds.likes,feeds.type,feeds.time,user.id AS user_id,feeds.mobile AS user_mobile,user.fullname user_fullname,user.img_thumb AS user_image
                 FROM feeds
                 LEFT JOIN user
                 ON feeds.mobile = user.mobile
                 WHERE feeds.active = ?
                 ORDER BY feeds.id DESC LIMIT 100",array("y"));
+
 
 if ($q->rowCount() <= 0){
     $response["return"] = false;
@@ -44,10 +45,19 @@ if ($q->rowCount() <= 0){
     json($response);
 }
 
+$data = $q->fetchAll(PDO::FETCH_ASSOC);
+$i = 0;
+foreach ($data as $feed){
+    $feed_id = $feed["id"];
+    $data[$i]["user_liked"] = check_user_likes_feed($mobile,$feed_id);
+    $i++;
+}
+
+
 if (!Db::getError()){
     $response["return"] = true;
     $response["message"] = "success";
-    $response["data"] = $q->fetchAll(PDO::FETCH_ASSOC);
+    $response["data"] = $data;
 }else{
     $response["return"] = false;
     $response["message"] = "OOPS!! failed to load feed. Try again later";
